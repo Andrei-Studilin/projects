@@ -1,0 +1,537 @@
+Задание 4.1:
+
+select
+   a.city,
+   count(distinct a.airport_code) as airport_qty
+from
+    dst_project.airports as a
+group by 
+    a.city  
+order by
+    airport_qty desc
+
+Задание 4.2 Вопрос 1:
+
+select
+    count(distinct f.status)
+from
+    dst_project.flights as f 
+
+Задание 4.2 Вопрос 2:
+
+select
+    count(distinct flight_no)
+from
+    dst_project.flights as f
+where
+    f.status = 'Departed'
+
+Задание 4.2 Вопрос 3:
+
+select
+    count(distinct s.seat_no)
+from 
+    dst_project.aircrafts as a  
+    join dst_project.seats as s on a.aircraft_code = s.aircraft_code
+group by
+    a.aircraft_code
+having
+    a.aircraft_code = '773'
+
+Задание 4.2 Вопрос 4:
+
+select
+
+     count(distinct flight_id)
+
+from
+ 
+    dst_project.flights as f
+
+where
+
+    f.status = 'Arrived' and f.actual_arrival
+
+    between '2017-4-1' and '2017-9-1'
+
+Задание 4.3 Вопрос 1:
+
+select
+
+   count(*)
+
+from
+
+    dst_project.flights as f
+
+where
+
+    f.status = 'Cancelled'
+
+Задание 4.3 Вопрос 2:
+Считаем Boeing:
+
+select
+
+   count(*)
+
+from
+
+    dst_project.aircrafts as a 
+
+where
+
+    a.model like 'Boeing%'
+
+Считаем Sukhoi Superjet:
+
+select
+
+   count(*)
+
+from
+
+    dst_project.aircrafts as a 
+
+where
+
+    a.model like 'Sukhoi Superjet%'
+
+Считаем Airbus:
+
+select
+
+   count(*)
+
+from
+
+    dst_project.aircrafts as a 
+
+where
+
+    a.model like 'Airbus%' 
+
+Задание 4.3 Вопрос 3:
+
+select
+
+    'Asia' as part,
+
+    count(*) as total
+
+from
+
+    dst_project.airports as a 
+
+where
+
+    a.timezone like 'Asia%'
+
+
+    
+    union
+  
+  
+
+select
+
+    'Europe' as part,
+
+    count(*) as total
+
+from
+
+    dst_project.airports as a  
+
+where
+
+    a.timezone like 'Europe%'
+
+
+    
+    union
+ 
+   
+
+select
+
+    'Australia' as part,
+
+    count(*)
+
+from
+
+    dst_project.airports as a 
+
+where
+
+    a.timezone like 'Australia%'
+ 
+
+Задание 4.3 Вопрос 4:
+
+select
+
+    f.flight_id,
+
+    f.actual_arrival - f.scheduled_arrival as delay
+
+from
+
+    dst_project.flights as f  
+
+where
+
+    f.status = 'Arrived'
+
+order by
+
+    delay desc
+
+limit 1  
+
+Задание 4.4 Вопрос 1:
+
+select
+
+    min(f.scheduled_departure)
+
+from
+
+    dst_project.flights as f 
+
+Задание 4.4 Вопрос 2:
+
+select
+
+    date_part('hour', f.scheduled_arrival
+ 
+   - f.scheduled_departure) * 60
+
+    + date_part('minute', f.scheduled_arrival
+ 
+   - f.scheduled_departure) as duration
+
+from
+
+    dst_project.flights as f 
+
+order by
+
+    duration desc
+
+limit 1
+
+Задание 4.4 Вопрос 3:
+
+select
+
+    distinct(f.departure_airport),
+
+    f.arrival_airport
+
+from
+    dst_project.flights as f
+
+where
+
+    date_part('hour', f.scheduled_arrival
+
+    - f.scheduled_departure) * 60
+
+    + date_part('minute', f.scheduled_arrival
+
+    - f.scheduled_departure) = 530 --Значение взято из предыдущей задачи
+
+Задание 4.4 Вопрос 4:
+
+select
+
+    avg(date_part('hour', f.scheduled_arrival
+
+    - f.scheduled_departure) * 60
+
+    + date_part('minute', f.scheduled_arrival
+
+    - f.scheduled_departure)) as avg_duration
+
+from
+
+    dst_project.flights as f
+
+Задание 4.5 Вопрос 1:
+
+select
+
+    s.fare_conditions,
+
+    count(s.seat_no)
+
+from
+
+    dst_project.seats as s
+
+    join dst_project.aircrafts as a
+  
+  on s.aircraft_code = a.aircraft_code
+
+where
+
+    a.aircraft_code = 'SU9'
+
+group by
+
+    s.fare_conditions
+
+
+Задание 4.5 Вопрос 2:
+
+select
+
+    min(b.total_amount)
+
+from
+
+    dst_project.bookings as b
+
+Задание 4.5 Вопрос 3:
+
+select
+
+    bp.seat_no
+
+from
+
+    dst_project.tickets as t
+
+    join dst_project.boarding_passes as bp
+ 
+    on t.ticket_no = bp.ticket_no
+
+where
+
+    t.passenger_id = '4313 788533'
+
+Задание 5.1 Вопрос 1:
+
+select
+
+    count(*)
+
+from
+ 
+    dst_project.flights as f
+
+where
+
+    date_part('year', f.actual_arrival) = 2017
+
+    and f.arrival_airport = 'AAQ'
+
+Задание 5.1 Вопрос 2:
+
+select
+
+    count(*)
+
+from
+ 
+    dst_project.flights as f
+
+where
+
+    (date_trunc('month', actual_departure)
+    in ('2017-01-01', '2017-02-01', '2017-12-01'))
+
+    and f.departure_airport = 'AAQ'
+
+Задание 5.1 Вопрос 3:
+
+select
+
+    count(*)
+
+from
+ 
+    dst_project.flights as f
+
+where
+
+    f.departure_airport = 'AAQ'
+
+    and f.status = 'Cancelled'
+
+Задание 5.1 Вопрос 4:
+
+select
+
+    count(distinct f.flight_no)
+
+from
+ 
+    dst_project.flights as f
+
+    join dst_project.airports as a
+
+    on a.airport_code = f.arrival_airport
+
+where
+
+    f.departure_airport = 'AAQ'
+
+    and a.city != 'Moscow'
+
+Задание 5.1 Вопрос 5:
+
+select
+
+    a.model,
+
+    count(distinct s.seat_no)
+
+from
+ 
+   dst_project.flights as f
+
+    join dst_project.aircrafts as a
+
+    on a.aircraft_code = f.aircraft_code
+
+    join dst_project.seats as s
+
+    on f.aircraft_code = s.aircraft_code
+
+where
+
+    f.departure_airport = 'AAQ'
+
+group by
+
+    a.model
+
+Итоговый запрос:
+
+with ticket_1 as
+--Считаем количество проданных билетов и выручку по классам
+(select
+    tf.flight_id as flight_id,
+    count(tf.ticket_no) as econom_tickets,
+    sum(tf.amount) as econom_amount
+from    
+    dst_project.ticket_flights as tf
+where
+    tf.fare_conditions = 'Economy'
+group by
+    tf.flight_id),
+
+ticket_2 as
+(select
+    tf1.flight_id as flight_id,
+    count(tf1.ticket_no) as comfort_tickets,
+    sum(tf1.amount) as comfort_amount
+from
+    dst_project.ticket_flights as tf1
+where
+    tf1.fare_conditions = 'Comfort'
+group by
+    tf1.flight_id),
+    
+ticket_3 as
+(select
+    tf2.flight_id as flight_id,
+    count(tf2.ticket_no) as business_tickets,
+    sum(tf2.amount) as business_amount
+from
+    dst_project.ticket_flights as tf2
+where
+    tf2.fare_conditions = 'Business'
+group by 
+    tf2.flight_id),
+-- Считаем количество мест в самолётах по классам    
+table_1 as
+(select
+    s.aircraft_code as aircraft_code,
+    count(s.seat_no) as business_qty
+from
+    dst_project.seats as s
+where
+    s.fare_conditions = 'Business'
+group by
+    s.aircraft_code),
+    
+table_2 as
+(select
+    s1.aircraft_code as aircraft_code,
+    count(s1.seat_no) as comfort_qty
+from
+    dst_project.seats as s1 
+where
+    s1.fare_conditions = 'Comfort'
+group by
+    s1.aircraft_code),
+    
+table_3 as
+(select
+    s2.aircraft_code as aircraft_code,
+    count(s2.seat_no) as economy_qty
+from
+    dst_project.seats as s2
+where
+    s2.fare_conditions = 'Economy'
+group by 
+    s2.aircraft_code),
+--Выведем продолжительность полёта в часах    
+table_4 as
+(select
+    f1.flight_id as flight_id,
+    date_part('hour', f1.scheduled_arrival
+    - f1.scheduled_departure)
+    + date_part('minute', f1.scheduled_arrival
+    - f1.scheduled_departure)/60 as flight_duration
+from 
+    dst_project.flights as f1)
+
+--Объединяем полученные данные с таблицей flights    
+select
+    f.flight_id,
+    f.flight_no,
+    f.departure_airport,
+    f.arrival_airport,
+    f.actual_departure,
+    table_4.flight_duration,
+    f.aircraft_code,
+    a.model,
+    table_1.business_qty,
+    table_2.comfort_qty,
+    table_3.economy_qty,
+    ticket_1.econom_tickets,
+    ticket_1.econom_amount,
+    ticket_2.comfort_tickets,
+    ticket_2.comfort_amount,
+    ticket_3.business_tickets,
+    ticket_3.business_amount
+from
+    dst_project.flights as f left join ticket_1
+    on f.flight_id = ticket_1.flight_id
+    left join ticket_2
+    on f.flight_id = ticket_2.flight_id
+    left join ticket_3
+    on f.flight_id = ticket_3.flight_id
+    left join table_1
+    on f.aircraft_code = table_1.aircraft_code
+    left join table_2
+    on f.aircraft_code = table_2.aircraft_code
+    left join table_3
+    on f.aircraft_code = table_3.aircraft_code
+    left join table_4
+    on f.flight_id = table_4.flight_id
+-- Присоеденим таблицу aircrafts для получения модели самолёта
+    left join dst_project.aircrafts as a
+    on f.aircraft_code = a.aircraft_code
+where
+    f.departure_airport = 'AAQ'
+    and (date_trunc('month', scheduled_departure) in ('2017-01-01','2017-02-01', '2017-12-01'))
+    and f.status not in ('Cancelled')
+--Упорядочим данные по аэропорту прибытия и дате вылета
+order by
+    f.arrival_airport, f.actual_departure
